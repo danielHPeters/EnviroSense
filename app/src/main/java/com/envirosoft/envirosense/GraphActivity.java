@@ -10,14 +10,27 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.envirosoft.envirosense.model.EnvironmentDataEntry;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class GraphActivity extends AppCompatActivity {
 
-
+    private DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy", Locale.ENGLISH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +41,38 @@ public class GraphActivity extends AppCompatActivity {
 
         final TextView temp = (TextView) findViewById(R.id.textView);
 
-        /*try {
+        List<EnvironmentDataEntry> list = new ArrayList<>();
+
+        String date;
+
+        String pressure;
+
+        String light;
+
+        String temperature;
+
+        try {
             JSONArray jsonArray = new JSONArray(loadData());
 
-            jsonArray.
+            for(int i = 0; i < jsonArray.length(); i++){
+                JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
+                date = jsonObject.get("entryDate").toString();
+                pressure = jsonObject.get("entryPressure").toString();
+                light = jsonObject.get("entryLight").toString();
+                 temperature = jsonObject.get("entryTemperature").toString();
+
+
+                Date parsedDate =  this.df.parse(date);
+
+                list.add(new EnvironmentDataEntry(parsedDate, pressure, light, temperature));
+
+                System.out.println(date + pressure + light + temperature);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
         btn.setOnClickListener(new View.OnClickListener() {

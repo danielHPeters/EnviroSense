@@ -31,6 +31,19 @@ public class EnvironmentDataEntry {
 
     /**
      *
+     * @param entryPressure
+     * @param entryLight
+     * @param entryTemperature
+     */
+    public EnvironmentDataEntry(Date date, String entryPressure, String entryLight, String entryTemperature) {
+        this.entryDate = date;
+        this.entryPressure = entryPressure;
+        this.entryLight = entryLight;
+        this.entryTemperature = entryTemperature;
+    }
+
+    /**
+     *
      * @return
      */
     public Date getEntryDate() {
