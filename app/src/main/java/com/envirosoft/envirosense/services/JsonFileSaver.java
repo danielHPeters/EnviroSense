@@ -32,8 +32,9 @@ public class JsonFileSaver {
     private static void writeEntry(JsonWriter writer, EnvironmentDataEntry entry) throws IOException {
         writer.beginObject();
         writer.name("entryDate").value(entry.getEntryDate().toString());
-        writer.name("entryTemperature").value(entry.getEntryTemperature());
         writer.name("entryPressure").value(entry.getEntryPressure());
+        writer.name("entryLight").value(entry.getEntryLight());
+        writer.name("entryTemperature").value(entry.getEntryTemperature());
         writer.endObject();
     }
 }
