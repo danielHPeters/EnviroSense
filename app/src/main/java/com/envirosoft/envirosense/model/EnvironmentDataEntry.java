@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by admin on 31.08.2017.
  */
-public class EnvironmentDataEntry {
+public class EnvironmentDataEntry implements Comparable<EnvironmentDataEntry>{
 
     private Date entryDate;
 
@@ -105,5 +105,10 @@ public class EnvironmentDataEntry {
      */
     public void setEntryTemperature(String entryTemperature) {
         this.entryTemperature = entryTemperature;
+    }
+
+    @Override
+    public int compareTo(EnvironmentDataEntry another) {
+        return Long.compare(this.entryDate.getTime(), another.getEntryDate().getTime());
     }
 }

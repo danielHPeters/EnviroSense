@@ -77,9 +77,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
         this.list = new ArrayList<>();
-        list.add(new EnvironmentDataEntry("20", "18", "14"));
-        list.add(new EnvironmentDataEntry("15", "4", "12"));
-        list.add(new EnvironmentDataEntry("46", "32", "1132"));
 
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
         Button graphBtn = (Button) findViewById(R.id.graphBtn);
@@ -106,6 +103,7 @@ public class MainActivity extends AppCompatActivity{
         // Register a listener for the sensor.
         super.onResume();
 
+        sensorManager.registerListener(pressureListener, pressureSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(lightListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         if (temperatureListener != null) {
             sensorManager.registerListener(temperatureListener, temperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
