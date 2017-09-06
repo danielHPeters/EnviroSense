@@ -10,11 +10,12 @@
     tools:context="com.envirosoft.envirosense.MainActivity"
     android:background="@color/background">
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:id="@+id/button"
+        android:id="@+id/saveBtn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         style="@style/buttons"
@@ -37,8 +38,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="45°"
-        android:id="@+id/textView2"
+        android:id="@+id/temperatureView"
         android:layout_marginTop="160dp"
+        android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -47,18 +49,31 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Zürich"
-        android:id="@+id/textView"
+        android:gravity="center"
+        android:id="@+id/locationView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/graphBtn" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="10 bar"
-        android:id="@+id/textView3"
+        android:gravity="center"
+        android:id="@+id/pressureView"
         android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/textView" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"
+        android:text="Light"
+        android:id="@+id/lightView"
+        android:layout_below="@+id/pressureView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp" />
 
 </RelativeLayout>

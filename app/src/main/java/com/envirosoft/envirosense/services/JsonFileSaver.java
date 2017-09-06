@@ -14,16 +14,27 @@ import java.util.List;
  */
 public class JsonFileSaver {
 
-    public void writeJsonStream(OutputStream out, List<EnvironmentDataEntry> data) throws IOException {
+    public static void writeJsonStream(OutputStream out, List<EnvironmentDataEntry> data) throws IOException {
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
         writer.setIndent("  ");
-        saveEnvirodataToJson(writer, data);
+        writeEnviroDataArray(writer, data);
         writer.close();
     }
 
-    public static void saveEnvirodataToJson(JsonWriter writer, List<EnvironmentDataEntry> entries) throws IOException{
-            writer.beginObject();
+    private static void writeEnviroDataArray(JsonWriter writer, List<EnvironmentDataEntry> entries) throws IOException {
+        writer.beginArray();
+        for (EnvironmentDataEntry entry : entries) {
+            writeEntry(writer, entry);
+        }
+        writer.endArray();
+    }
 
-            writer.endObject();
+    private static void writeEntry(JsonWriter writer, EnvironmentDataEntry entry) throws IOException {
+        writer.beginObject();
+        writer.name("entryDate").value(entry.getEntryDate().toString());
+        writer.name("entryPressure").value(entry.getEntryPressure());
+        writer.name("entryLight").value(entry.getEntryLight());
+        writer.name("entryTemperature").value(entry.getEntryTemperature());
+        writer.endObject();
     }
 }
