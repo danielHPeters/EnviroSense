@@ -1,17 +1,14 @@
 package com.envirosoft.envirosense;
 
+
+import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -19,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class GraphActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,4 +83,5 @@ public class GraphActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
+
 }
