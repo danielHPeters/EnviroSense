@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EnviroSense</string>
+    <color name="background">#FFFFFF</color>
+
 </resources>
