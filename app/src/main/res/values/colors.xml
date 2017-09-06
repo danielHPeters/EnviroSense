@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <style name="buttons">
         <item name="android:textColor">#FFFFFF</item>
-        
+
     </style>
 
 </resources>
