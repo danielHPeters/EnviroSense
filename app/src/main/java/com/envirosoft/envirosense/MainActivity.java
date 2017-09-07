@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
 
@@ -52,29 +52,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Init sensor manager to access sensors
-        this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
-        // get pressure sensor and use listener to add to textview
-        this.pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        this.pressureView = (TextView) findViewById(R.id.pressureView);
-        this.pressureListener = new SimpleSensorListener(pressureView, "hpa", "Pressure");
-
-        // get light sensor and use listener to add to textview
-        this.lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        this.lightView = (TextView) findViewById(R.id.lightView);
-        this.lightListener = new SimpleSensorListener(lightView, "lx", "Light");
-
-        this.temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        this.temperatureView = (TextView) findViewById(R.id.temperatureView);
-
-        // Test if ambient temperature sensor is available because only a few devices have it
-        if(temperatureSensor != null) {
-
-            this.   temperatureListener = new SimpleSensorListener(lightView, "°C", "Temperature");
-        } else {
-            temperatureView.setText("Temperature Sensor not available!");
-        }
+        startSensorListeners();
 
         this.list = new ArrayList<>();
 
@@ -98,6 +76,32 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
+    private void startSensorListeners() {
+        // Init sensor manager to access sensors
+        this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        // get pressure sensor and use listener to add to textview
+        this.pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+        this.pressureView = (TextView) findViewById(R.id.pressureView);
+        this.pressureListener = new SimpleSensorListener(pressureView, "hpa", "Pressure");
+
+        // get light sensor and use listener to add to textview
+        this.lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        this.lightView = (TextView) findViewById(R.id.lightView);
+        this.lightListener = new SimpleSensorListener(lightView, "lx", "Light");
+
+        this.temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        this.temperatureView = (TextView) findViewById(R.id.temperatureView);
+
+        // Test if ambient temperature sensor is available because only a few devices have it
+        if (temperatureSensor != null) {
+
+            this.temperatureListener = new SimpleSensorListener(lightView, "°C", "Temperature");
+        } else {
+            temperatureView.setText("Temperature Sensor not available!");
+        }
+    }
+
     @Override
     protected void onResume() {
         // Register a listener for the sensor.
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity{
         sensorManager.unregisterListener(pressureListener);
         sensorManager.unregisterListener(lightListener);
 
-        if(temperatureListener != null) {
+        if (temperatureListener != null) {
             sensorManager.unregisterListener(temperatureListener);
         }
     }
@@ -131,6 +135,9 @@ public class MainActivity extends AppCompatActivity{
         startActivity(openGraph);
     }
 
+    /**
+     * Save data to data.json
+     */
     public void saveData() {
 
 
@@ -140,8 +147,8 @@ public class MainActivity extends AppCompatActivity{
 
         String temperature = "";
 
-        if(temperatureListener != null) {
-            temperature  = temperatureListener.getValue();
+        if (temperatureListener != null) {
+            temperature = temperatureListener.getValue();
         }
 
         this.list.add(new EnvironmentDataEntry(pressure, light, temperature));
@@ -150,8 +157,7 @@ public class MainActivity extends AppCompatActivity{
 
         try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            JsonFileSaver.writeJsonStream(outputStream, list);
-            outputStream.close();
+            JsonFileSaver.saveToFileStream(outputStream, this.list);
         } catch (Exception e) {
             e.printStackTrace();
         }

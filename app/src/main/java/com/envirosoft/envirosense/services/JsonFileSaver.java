@@ -4,6 +4,7 @@ import android.util.JsonWriter;
 
 import com.envirosoft.envirosense.model.EnvironmentDataEntry;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -29,6 +30,13 @@ public class JsonFileSaver {
         writer.endArray();
     }
 
+    /**
+     * Write object attributes
+     *
+     * @param writer
+     * @param entry
+     * @throws IOException
+     */
     private static void writeEntry(JsonWriter writer, EnvironmentDataEntry entry) throws IOException {
         writer.beginObject();
         writer.name("entryDate").value(entry.getEntryDate().toString());
@@ -36,5 +44,17 @@ public class JsonFileSaver {
         writer.name("entryLight").value(entry.getEntryLight());
         writer.name("entryTemperature").value(entry.getEntryTemperature());
         writer.endObject();
+    }
+
+    /**
+     * Save to stream
+     *
+     * @param outputStream
+     * @throws Exception
+     */
+    public static void saveToFileStream(FileOutputStream outputStream, List<EnvironmentDataEntry> list) throws Exception {
+        JsonFileSaver.writeJsonStream(outputStream, list);
+        outputStream.close();
+
     }
 }
