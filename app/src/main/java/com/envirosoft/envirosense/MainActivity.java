@@ -14,11 +14,7 @@ import com.envirosoft.envirosense.model.EnvironmentDataEntry;
 import com.envirosoft.envirosense.services.JsonFileSaver;
 import com.envirosoft.envirosense.services.SimpleSensorListener;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,21 +53,27 @@ public class MainActivity extends AppCompatActivity {
         this.list = new ArrayList<>();
 
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
-        Button graphBtn = (Button) findViewById(R.id.graphBtn);
-
-        final Intent openGraph = new Intent(this, GraphActivity.class);
+        final Button graphBtn = (Button) findViewById(R.id.graphBtn);
 
         graphBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(openGraph);
+                openGraphWindow();
             }
         });
+        graphBtn.setEnabled(false);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveData();
+                // Only allow to open graph if there is data saved
+                if(list.size() < 2){
+                    graphBtn.setEnabled(false);
+                } else {
+                    graphBtn.setEnabled(true);
+                }
+
             }
         });
     }

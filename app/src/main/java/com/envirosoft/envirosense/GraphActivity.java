@@ -70,8 +70,6 @@ public class GraphActivity extends AppCompatActivity {
 
             // Set Labels for graph
             graph.getGridLabelRenderer().setNumHorizontalLabels(3);
-            graph.getViewport().setMinX(Collections.min(list).getEntryDate().getTime());
-            graph.getViewport().setMaxX(Collections.max(list).getEntryDate().getTime());
 
             graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
                 @Override
