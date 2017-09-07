@@ -42,10 +42,6 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
 
-        Button btn = (Button) findViewById(R.id.loadButton);
-
-        final TextView temp = (TextView) findViewById(R.id.textView);
-
         List<EnvironmentDataEntry> list = new ArrayList<>();
 
         String date;
@@ -56,12 +52,7 @@ public class GraphActivity extends AppCompatActivity {
 
         String temperature;
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                temp.setText(loadData());
-            }
-        });
+
 
         try {
             JSONArray jsonArray = new JSONArray(loadData());
@@ -106,11 +97,11 @@ public class GraphActivity extends AppCompatActivity {
             GraphView graph = (GraphView) findViewById(R.id.dataGraph);
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
 
-            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+            /*graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
             graph.getGridLabelRenderer().setNumHorizontalLabels(3);
             graph.getViewport().setMinX(list.get(0).getEntryDate().getTime());
-            graph.getViewport().setMaxX(list.get(list.size()).getEntryDate().getTime());
-            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setMaxX(list.get(list.size()).getEntryDate().getTime());*/
+            //graph.getViewport().setXAxisBoundsManual(true);
 
             graph.addSeries(series);
         } catch (JSONException e) {
