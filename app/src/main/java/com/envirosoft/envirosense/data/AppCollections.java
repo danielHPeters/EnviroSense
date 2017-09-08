@@ -10,5 +10,12 @@ import java.util.List;
 
 public final class AppCollections {
 
+    /**
+     * Hide constructor
+     */
+    private AppCollections(){
+
+    }
+
     public static List<EnvironmentDataEntry> entryList;
 }
