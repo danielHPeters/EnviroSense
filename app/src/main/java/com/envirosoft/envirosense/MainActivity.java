@@ -1,36 +1,34 @@
 package com.envirosoft.envirosense;
 
-import android.Manifest;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ServiceCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.envirosoft.envirosense.data.AppCollections;
 import com.envirosoft.envirosense.model.EnvironmentDataEntry;
+import com.envirosoft.envirosense.services.JsonFileReader;
 import com.envirosoft.envirosense.services.JsonFileSaver;
 import com.envirosoft.envirosense.services.SimpleSensorListener;
 
+import org.json.JSONException;
+
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.security.Provider;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+
 
     private SensorManager sensorManager;
 
@@ -45,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private SimpleSensorListener lightListener;
 
     private SimpleSensorListener temperatureListener;
-
-    private List<EnvironmentDataEntry> list;
 
     private TextView pressureView;
 
@@ -63,23 +59,30 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startSensorListeners();
+        try {
+            FileInputStream fileInputStream = openFileInput("data.json");
+            AppCollections.entryList = JsonFileReader.getEntriesFromJson(fileInputStream);
+        } catch (IOException e) {
+            AppCollections.entryList = new ArrayList<>();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        this.list = new ArrayList<>();
         this.saveBtn = (Button) findViewById(R.id.saveBtn);
         this.graphBtn = (Button) findViewById(R.id.graphBtn);
+        this.pressureView = (TextView) findViewById(R.id.pressureView);
+        this.lightView = (TextView) findViewById(R.id.lightView);
+        this.temperatureView = (TextView) findViewById(R.id.temperatureView);
+
+
+        startSensorListeners();
 
         graphBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Only allow to open graph if there is data saved
-                if (list.size() > 2) {
-                    openGraphWindow();
-                } else {
-                    Snackbar.make(findViewById(R.id.mainLayout),
-                            R.string.not_enough_data, Snackbar.LENGTH_SHORT).show();
-                }
+                checkForAvailableData();
             }
         });
 
@@ -91,22 +94,32 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         });
     }
 
+
+    public void checkForAvailableData() {
+        // Only allow to open graph if there is data saved
+        if (AppCollections.entryList.size() > 2) {
+            openGraphWindow();
+        } else {
+            Snackbar.make(findViewById(R.id.mainLayout),
+                    R.string.not_enough_data, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
     private void startSensorListeners() {
         // Init sensor manager to access sensors
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         // get pressure sensor and use listener to add to textview
         this.pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-        this.pressureView = (TextView) findViewById(R.id.pressureView);
+
         this.pressureListener = new SimpleSensorListener(pressureView, "hpa", "Pressure");
 
         // get light sensor and use listener to add to textview
         this.lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        this.lightView = (TextView) findViewById(R.id.lightView);
+
         this.lightListener = new SimpleSensorListener(lightView, "lx", "Light");
 
         this.temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
-        this.temperatureView = (TextView) findViewById(R.id.temperatureView);
 
         // Test if ambient temperature sensor is available because only a few devices have it
         if (temperatureSensor != null) {
@@ -155,6 +168,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
      */
     public void saveData() {
 
+        String filename = "data.json";
+
+        FileOutputStream outputStream;
 
         String pressure = pressureListener.getValue();
 
@@ -166,13 +182,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             temperature = temperatureListener.getValue();
         }
 
-        this.list.add(new EnvironmentDataEntry(pressure, light, temperature));
-        String filename = "data.json";
-        FileOutputStream outputStream;
+        AppCollections.entryList.add(new EnvironmentDataEntry(EnvironmentDataEntry.LOCATION_UNKNOWN, pressure, light, temperature));
 
         try {
             outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            JsonFileSaver.saveToFileStream(outputStream, this.list);
+            JsonFileSaver.saveToFileStream(outputStream, AppCollections.entryList);
         } catch (Exception e) {
             e.printStackTrace();
         }

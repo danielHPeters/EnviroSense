@@ -70,6 +70,8 @@ public class JsonFileReader {
 
         String date;
 
+        String location;
+
         String pressure;
 
         String light;
@@ -84,12 +86,13 @@ public class JsonFileReader {
         for (int i = 0; i < jsonArray.length(); i++) {
 
             jsonObject = new JSONObject(jsonArray.get(i).toString());
-            date = jsonObject.get("entryDate").toString();
-            pressure = jsonObject.get("entryPressure").toString();
-            light = jsonObject.get("entryLight").toString();
-            temperature = jsonObject.get("entryTemperature").toString();
+            date = jsonObject.get("date").toString();
+            location = jsonObject.get("location").toString();
+            pressure = jsonObject.get("pressure").toString();
+            light = jsonObject.get("luminance").toString();
+            temperature = jsonObject.get("temperature").toString();
             parsedDate = df.parse(date);
-            entriesList.add(new EnvironmentDataEntry(parsedDate, pressure, light, temperature));
+            entriesList.add(new EnvironmentDataEntry(parsedDate, location, pressure, light, temperature));
 
         }
 

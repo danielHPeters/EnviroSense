@@ -1,114 +1,100 @@
 package com.envirosoft.envirosense.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by admin on 31.08.2017.
  */
-public class EnvironmentDataEntry implements Comparable<EnvironmentDataEntry>{
+public class EnvironmentDataEntry implements Comparable<EnvironmentDataEntry> {
 
-    private Date entryDate;
+    public static final String LOCATION_UNKNOWN = "unknown";
 
-    private String entryPressure;
+    private UUID id;
 
-    private String entryLight;
+    private Date date;
 
-    private String entryTemperature;
+    private String location;
+
+    private String pressure;
+
+    private String luminance;
+
+    private String temperature;
 
 
     /**
-     *
-     * @param entryPressure
-     * @param entryLight
-     * @param entryTemperature
+     * @param pressure
+     * @param luminance
+     * @param temperature
      */
-    public EnvironmentDataEntry(String entryPressure, String entryLight, String entryTemperature) {
-        this.entryDate = new Date();
-        this.entryPressure = entryPressure;
-        this.entryLight = entryLight;
-        this.entryTemperature = entryTemperature;
+    public EnvironmentDataEntry(String location, String pressure, String luminance, String temperature) {
+        this.id = UUID.randomUUID();
+        this.date = new Date();
+        this.location = location;
+        this.pressure = pressure;
+        this.luminance = luminance;
+        this.temperature = temperature;
     }
 
     /**
-     *
-     * @param entryPressure
-     * @param entryLight
-     * @param entryTemperature
+     * @param pressure
+     * @param luminance
+     * @param temperature
      */
-    public EnvironmentDataEntry(Date date, String entryPressure, String entryLight, String entryTemperature) {
-        this.entryDate = date;
-        this.entryPressure = entryPressure;
-        this.entryLight = entryLight;
-        this.entryTemperature = entryTemperature;
+    public EnvironmentDataEntry(Date date, String location, String pressure, String luminance, String temperature) {
+        this.id = UUID.randomUUID();
+        this.date = date;
+        this.location = location;
+        this.pressure = pressure;
+        this.luminance = luminance;
+        this.temperature = temperature;
+    }
+
+    /**
+     * @return
+     */
+    public Date getDate() {
+        return date;
     }
 
     /**
      *
      * @return
      */
-    public Date getEntryDate() {
-        return entryDate;
+    public String getLocation() {
+        return this.location;
     }
 
     /**
-     *
-     * @param entryDate
-     */
-    public void setEntryDate(Date entryDate) {
-        this.entryDate = entryDate;
-    }
-
-
-    /**
-     *
      * @return
      */
-    public String getEntryPressure() {
-        return entryPressure;
+    public String getPressure() {
+        return pressure;
     }
 
     /**
-     *
-     * @param entryPressure
-     */
-    public void setEntryPressure(String entryPressure) {
-        this.entryPressure = entryPressure;
-    }
-
-    /**
-     *
      * @return
      */
-    public String getEntryLight() {
-        return entryLight;
+    public String getLuminance() {
+        return luminance;
     }
 
     /**
-     *
-     * @param entryLight
-     */
-    public void setEntryLight(String entryLight) {
-        this.entryLight = entryLight;
-    }
-
-    /**
-     *
      * @return
      */
-    public String getEntryTemperature() {
-        return entryTemperature;
-    }
-
-    /**
-     *
-     * @param entryTemperature
-     */
-    public void setEntryTemperature(String entryTemperature) {
-        this.entryTemperature = entryTemperature;
+    public String getTemperature() {
+        return temperature;
     }
 
     @Override
     public int compareTo(EnvironmentDataEntry another) {
-        return Long.compare(this.entryDate.getTime(), another.getEntryDate().getTime());
+        return Long.compare(this.date.getTime(), another.getDate().getTime());
+    }
+
+    @Override
+    public String toString(){
+        return "EnvironmentDataEntry [id=" + id + ", date=" + date.toString() + ", location= "
+                +location + ", pressure=" + pressure + ", luminance=" + luminance + ", temperature=" + temperature + "]";
     }
 }

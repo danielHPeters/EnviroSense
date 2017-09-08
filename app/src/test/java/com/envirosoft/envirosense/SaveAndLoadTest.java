@@ -26,8 +26,8 @@ public class SaveAndLoadTest {
     public void testLoadAndSave() {
 
         String file = "test.json";
-        input.add(new EnvironmentDataEntry("12", "21", "19"));
-        input.add(new EnvironmentDataEntry("24", "11", "12"));
+        input.add(new EnvironmentDataEntry("Zürich","12", "21", "19"));
+        input.add(new EnvironmentDataEntry("Zürich","24", "11", "12"));
 
         try {
             FileOutputStream outputStream = new FileOutputStream(file);

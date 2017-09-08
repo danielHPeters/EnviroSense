@@ -18,11 +18,11 @@ public class JsonFileSaver {
     public static void writeJsonStream(OutputStream out, List<EnvironmentDataEntry> data) throws IOException {
         JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
         writer.setIndent("  ");
-        writeEnviroDataArray(writer, data);
+        writeListToJSONArray(writer, data);
         writer.close();
     }
 
-    private static void writeEnviroDataArray(JsonWriter writer, List<EnvironmentDataEntry> entries) throws IOException {
+    private static void writeListToJSONArray(JsonWriter writer, List<EnvironmentDataEntry> entries) throws IOException {
         writer.beginArray();
         for (EnvironmentDataEntry entry : entries) {
             writeEntry(writer, entry);
@@ -39,10 +39,11 @@ public class JsonFileSaver {
      */
     private static void writeEntry(JsonWriter writer, EnvironmentDataEntry entry) throws IOException {
         writer.beginObject();
-        writer.name("entryDate").value(entry.getEntryDate().toString());
-        writer.name("entryPressure").value(entry.getEntryPressure());
-        writer.name("entryLight").value(entry.getEntryLight());
-        writer.name("entryTemperature").value(entry.getEntryTemperature());
+        writer.name("date").value(entry.getDate().toString());
+        writer.name("location").value(entry.getLocation());
+        writer.name("pressure").value(entry.getPressure());
+        writer.name("luminance").value(entry.getLuminance());
+        writer.name("temperature").value(entry.getTemperature());
         writer.endObject();
     }
 
@@ -50,9 +51,9 @@ public class JsonFileSaver {
      * Save to stream
      *
      * @param outputStream
-     * @throws Exception
+     * @throws IOException
      */
-    public static void saveToFileStream(FileOutputStream outputStream, List<EnvironmentDataEntry> list) throws Exception {
+    public static void saveToFileStream(FileOutputStream outputStream, List<EnvironmentDataEntry> list) throws IOException {
         JsonFileSaver.writeJsonStream(outputStream, list);
         outputStream.close();
 
