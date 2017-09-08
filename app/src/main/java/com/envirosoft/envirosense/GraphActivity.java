@@ -8,7 +8,6 @@ import com.envirosoft.envirosense.model.EnvironmentDataEntry;
 import com.envirosoft.envirosense.services.JsonFileReader;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -16,12 +15,9 @@ import org.json.JSONException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.security.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class GraphActivity extends AppCompatActivity {

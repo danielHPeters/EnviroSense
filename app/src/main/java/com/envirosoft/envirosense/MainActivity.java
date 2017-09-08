@@ -1,10 +1,21 @@
 package com.envirosoft.envirosense;
 
+import android.Manifest;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ServiceCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +26,11 @@ import com.envirosoft.envirosense.services.JsonFileSaver;
 import com.envirosoft.envirosense.services.SimpleSensorListener;
 
 import java.io.FileOutputStream;
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private SensorManager sensorManager;
 
@@ -42,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView temperatureView;
 
+    private Button saveBtn;
+
+    private Button graphBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,29 +66,27 @@ public class MainActivity extends AppCompatActivity {
         startSensorListeners();
 
         this.list = new ArrayList<>();
-
-        Button saveBtn = (Button) findViewById(R.id.saveBtn);
-        final Button graphBtn = (Button) findViewById(R.id.graphBtn);
+        this.saveBtn = (Button) findViewById(R.id.saveBtn);
+        this.graphBtn = (Button) findViewById(R.id.graphBtn);
 
         graphBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGraphWindow();
+
+                // Only allow to open graph if there is data saved
+                if (list.size() > 2) {
+                    openGraphWindow();
+                } else {
+                    Snackbar.make(findViewById(R.id.mainLayout),
+                            R.string.not_enough_data, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
-        graphBtn.setEnabled(false);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveData();
-                // Only allow to open graph if there is data saved
-                if(list.size() < 2){
-                    graphBtn.setEnabled(false);
-                } else {
-                    graphBtn.setEnabled(true);
-                }
-
             }
         });
     }
@@ -98,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         // Test if ambient temperature sensor is available because only a few devices have it
         if (temperatureSensor != null) {
 
-            this.temperatureListener = new SimpleSensorListener(lightView, "°C", "Temperature");
+            this.temperatureListener = new SimpleSensorListener(temperatureView, "°C", "Temperature");
         } else {
             temperatureView.setText("Temperature Sensor not available!");
         }
@@ -163,6 +176,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
     }
 

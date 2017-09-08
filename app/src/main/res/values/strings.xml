@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">EnviroSense</string>
+    <string name="not_enough_data">Please save at least two sets of data!</string>
     <color name="background">#FFFFFF</color>
-
 </resources>

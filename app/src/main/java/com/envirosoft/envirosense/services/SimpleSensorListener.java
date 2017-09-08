@@ -12,15 +12,15 @@ public class SimpleSensorListener implements SensorEventListener {
 
     private TextView view;
 
-    private String measurementType;
+    private String measurement;
 
     private String value;
 
     private String sensorType;
 
-    public SimpleSensorListener (TextView view, String measurementType, String sensorType){
+    public SimpleSensorListener(TextView view, String measurement, String sensorType) {
         this.view = view;
-        this.measurementType = measurementType;
+        this.measurement = measurement;
         this.sensorType = sensorType;
         this.value = "";
     }
@@ -29,7 +29,7 @@ public class SimpleSensorListener implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         float val = event.values[0];
         this.value = String.valueOf(val);
-        this.view.setText(this.sensorType + ": " + this.value + " " + this.measurementType);
+        this.view.setText(this.sensorType + ": " + this.value + " " + this.measurement);
     }
 
     @Override
