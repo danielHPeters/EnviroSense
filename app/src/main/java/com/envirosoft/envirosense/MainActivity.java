@@ -1,5 +1,6 @@
 package com.envirosoft.envirosense;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -17,6 +18,7 @@ import com.envirosoft.envirosense.data.AppCollections;
 import com.envirosoft.envirosense.model.EnvironmentDataEntry;
 import com.envirosoft.envirosense.services.JsonFileReader;
 import com.envirosoft.envirosense.services.JsonFileSaver;
+import com.envirosoft.envirosense.services.LocationService;
 import com.envirosoft.envirosense.services.SimpleSensorListener;
 
 import java.io.FileInputStream;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 public class MainActivity extends AppCompatActivity
     implements ActivityCompat.OnRequestPermissionsResultCallback {
   private SensorManager sensorManager;
+  private LocationService locationService;
   private Sensor pressureSensor;
   private Sensor lightSensor;
   private Sensor temperatureSensor;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity
   private TextView pressureView;
   private TextView lightView;
   private TextView temperatureView;
+  private TextView locationView;
   private Button saveBtn;
   private Button graphBtn;
 
@@ -56,11 +60,14 @@ public class MainActivity extends AppCompatActivity
       e.printStackTrace();
     }
 
-    this.saveBtn = (Button) findViewById(R.id.saveBtn);
-    this.graphBtn = (Button) findViewById(R.id.graphBtn);
-    this.pressureView = (TextView) findViewById(R.id.pressureView);
-    this.lightView = (TextView) findViewById(R.id.lightView);
-    this.temperatureView = (TextView) findViewById(R.id.temperatureView);
+    saveBtn = (Button) findViewById(R.id.saveBtn);
+    graphBtn = (Button) findViewById(R.id.graphBtn);
+    pressureView = (TextView) findViewById(R.id.pressureView);
+    lightView = (TextView) findViewById(R.id.lightView);
+    temperatureView = (TextView) findViewById(R.id.temperatureView);
+    locationView = (TextView) findViewById(R.id.locationView);
+
+    locationService = new LocationService(getApplicationContext(), locationView);
 
 
     startSensorListeners();
@@ -95,23 +102,22 @@ public class MainActivity extends AppCompatActivity
 
   private void startSensorListeners() {
     // Init sensor manager to access sensors
-    this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
     // get pressure sensor and use listener to add to textview
-    this.pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+    pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 
-    this.pressureListener = new SimpleSensorListener(pressureView, "hpa", "Pressure");
+    pressureListener = new SimpleSensorListener(pressureView, "hpa", "Pressure");
 
     // get light sensor and use listener to add to textview
-    this.lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+    lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
-    this.lightListener = new SimpleSensorListener(lightView, "lx", "Light");
+    lightListener = new SimpleSensorListener(lightView, "lx", "Light");
 
-    this.temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+    temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 
     // Test if ambient temperature sensor is available because only a few devices have it
     if (temperatureSensor != null) {
-
       this.temperatureListener = new SimpleSensorListener(temperatureView, "°C", "Temperature");
     } else {
       temperatureView.setText("Temperature Sensor not available!");
@@ -157,15 +163,10 @@ public class MainActivity extends AppCompatActivity
    * Save data to data.json.
    */
   public void saveData() {
-
     String filename = "data.json";
-
     FileOutputStream outputStream;
-
     String pressure = pressureListener.getValue();
-
     String light = lightListener.getValue();
-
     String temperature = "";
 
     if (temperatureListener != null) {
@@ -188,6 +189,5 @@ public class MainActivity extends AppCompatActivity
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                          @NonNull int[] grantResults) {
-
   }
 }
