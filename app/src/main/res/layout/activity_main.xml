@@ -11,7 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.envirosoft.envirosense.MainActivity">
 
-
     <Button
         android:id="@+id/saveBtn"
         style="@style/buttons"
@@ -21,7 +20,7 @@
         android:layout_alignParentEnd="true"
         android:width="180dp"
         android:background="#3f51b5"
-        android:text="Save" />
+        android:text="@string/save_btn_text" />
 
     <Button
         android:id="@+id/graphBtn"
@@ -32,7 +31,7 @@
         android:layout_alignParentStart="true"
         android:width="180dp"
         android:background="#3f51b5"
-        android:text="Graph" />
+        android:text="@string/graph_btn_text" />
 
     <TextView
         android:id="@+id/temperatureView"
@@ -42,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="160dp"
         android:gravity="center"
-        android:text="45°C"
+        android:text="@string/temperature_placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -53,7 +52,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
         android:gravity="center"
-        android:text="Zürich"
+        android:text="@string/location_placeholder"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -63,7 +62,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="10 hpa"
+        android:text="@string/pressure_placeholder"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -74,7 +73,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
         android:gravity="center"
-        android:text="30 lx"
+        android:text="@string/luminance_placeholder"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
 </RelativeLayout>

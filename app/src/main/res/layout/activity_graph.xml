@@ -9,11 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.envirosoft.envirosense.GraphActivity">
 
-
     <com.jjoe64.graphview.GraphView
         android:id="@+id/dataGraph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true" />
-
 </RelativeLayout>
+
