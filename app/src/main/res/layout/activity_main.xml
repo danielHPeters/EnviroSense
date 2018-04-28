@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.envirosoft.envirosense.MainActivity">
+    tools:context="com.envirosoft.envirosense.activity.MainActivity">
 
     <Button
         android:id="@+id/saveBtn"
@@ -37,9 +37,8 @@
         android:id="@+id/temperatureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/pressureView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
         android:gravity="center"
         android:text="@string/temperature_placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -48,9 +47,9 @@
         android:id="@+id/locationView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/graphBtn"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="83dp"
         android:gravity="center"
         android:text="@string/location_placeholder"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -59,8 +58,9 @@
         android:id="@+id/pressureView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="130dp"
         android:gravity="center"
         android:text="@string/pressure_placeholder"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -69,9 +69,9 @@
         android:id="@+id/lightView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pressureView"
+        android:layout_above="@+id/locationView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
+        android:layout_marginBottom="0dp"
         android:gravity="center"
         android:text="@string/luminance_placeholder"
         android:textAppearance="?android:attr/textAppearanceMedium" />

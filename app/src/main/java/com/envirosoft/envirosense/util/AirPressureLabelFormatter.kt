@@ -2,10 +2,17 @@ package com.envirosoft.envirosense.util
 
 import com.envirosoft.envirosense.config.Constants
 import com.jjoe64.graphview.DefaultLabelFormatter
-import java.util.*
+import java.util.Calendar
 
-class EnvironmentDataLabelFormatter: DefaultLabelFormatter() {
+/**
+ * Custom LabelFormatter for the GraphView.
+ *
+ * @author Daniel Peters
+ * @version 1.0
+ */
+class AirPressureLabelFormatter : DefaultLabelFormatter() {
   private val calendar = Calendar.getInstance()
+
   override fun formatLabel(value: Double, isValueX: Boolean): String {
     return if (isValueX) {
       calendar.timeInMillis = value.toLong()

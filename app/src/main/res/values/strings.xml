@@ -2,10 +2,10 @@
     <string name="app_name">EnviroSense</string>
     <string name="not_enough_data">Please save at least two sets of data!</string>
     <string name="temp_sensor_unavailable_en">Temperature Sensor not available!</string>
-    <string name="pressure_placeholder">10 hpa</string>
-    <string name="location_placeholder">Zürich</string>
-    <string name="luminance_placeholder">30 lx</string>
-    <string name="temperature_placeholder">45°C</string>
+    <string name="pressure_placeholder">Pressure: 10 hpa</string>
+    <string name="location_placeholder">Location: Zürich</string>
+    <string name="luminance_placeholder">Light: 30 lx</string>
+    <string name="temperature_placeholder">Temperature: 45°C</string>
     <string name="graph_btn_text">Graph</string>
     <string name="save_btn_text">Save</string>
 </resources>
