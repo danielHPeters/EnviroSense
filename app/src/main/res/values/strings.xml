@@ -8,4 +8,5 @@
     <string name="temperature_placeholder">Temperature: 45°C</string>
     <string name="graph_btn_text">Graph</string>
     <string name="save_btn_text">Save</string>
+    <string name="time_placeholder">12:00</string>
 </resources>

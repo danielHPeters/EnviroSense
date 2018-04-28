@@ -75,4 +75,14 @@
         android:gravity="center"
         android:text="@string/luminance_placeholder"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/timeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/temperatureView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/time_placeholder"
+        android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView"
+        android:textSize="30sp" />
 </RelativeLayout>

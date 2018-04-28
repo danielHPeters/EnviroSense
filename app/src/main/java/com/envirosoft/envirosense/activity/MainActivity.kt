@@ -18,6 +18,7 @@ import com.envirosoft.envirosense.interfaces.IDataHandler
 import com.envirosoft.envirosense.model.EnvironmentDataEntry
 import com.envirosoft.envirosense.listener.SimpleSensorListener
 import com.envirosoft.envirosense.service.JsonFileHandler
+import com.envirosoft.envirosense.task.TimeUpdater
 
 import java.io.FileOutputStream
 
@@ -37,11 +38,13 @@ class MainActivity : AppCompatActivity() {
   private lateinit var pressureListener: SimpleSensorListener
   private lateinit var lightListener: SimpleSensorListener
   private var temperatureListener: SimpleSensorListener? = null
+  private lateinit var timeView: TextView
   private lateinit var pressureView: TextView
   private lateinit var lightView: TextView
   private lateinit var temperatureView: TextView
   private lateinit var locationView: TextView
   private var jsonFileHandler: IDataHandler<EnvironmentDataEntry> = JsonFileHandler()
+  private lateinit var timeUpdater: TimeUpdater
 
   /**
    * Set up the MainActivity view, start sensors and load already available data.
@@ -52,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
+    timeView = findViewById(R.id.timeView)
     // Sensor display views.
     pressureView = findViewById(R.id.pressureView)
     lightView = findViewById(R.id.lightView)
@@ -66,6 +70,8 @@ class MainActivity : AppCompatActivity() {
 
     // Init sensor manager to access sensors
     sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    timeUpdater = TimeUpdater(mainLooper, timeView)
+    timeUpdater.handler.postDelayed(timeUpdater.runnable, 10)
     logAvailableSensors()
     startSensorListeners()
     loadData()
@@ -126,7 +132,7 @@ class MainActivity : AppCompatActivity() {
    */
   override fun onResume() {
     super.onResume()
-
+    timeUpdater.handler.postDelayed(timeUpdater.runnable, 10)
     sensorManager.registerListener(
       pressureListener, pressureSensor, SensorManager.SENSOR_DELAY_NORMAL
     )
@@ -143,6 +149,7 @@ class MainActivity : AppCompatActivity() {
    */
   override fun onPause() {
     super.onPause()
+    timeUpdater.handler.removeCallbacks(timeUpdater.runnable)
     sensorManager.unregisterListener(pressureListener)
     sensorManager.unregisterListener(lightListener)
     sensorManager.unregisterListener(temperatureListener)
