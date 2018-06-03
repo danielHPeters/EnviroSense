@@ -105,13 +105,13 @@ class MainActivity : AppCompatActivity() {
    * Start listening to sensors.
    */
   private fun startSensorListeners() {
-    // get pressure sensor and use listener to add to textview
+    // get pressure sensor and use listener to add to TextView
     pressureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
 
     pressureListener =
        SimpleSensorListener(pressureView, "hpa", "Pressure")
 
-    // get light sensor and use listener to add to textview
+    // get light sensor and use listener to add to TextView
     lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 
     lightListener =
